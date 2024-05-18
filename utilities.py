@@ -17,8 +17,9 @@ from streamlit_option_menu import option_menu
 import toml
 from base_page import BasePage
 
-# File path for the Streamlit configuration
-CONFIG_PATH = ".streamlit/config.toml"
+# File paths for the configurations
+STREAMLIT_CONFIG_PATH = ".streamlit/config.toml"
+APP_CONFIG_PATH = "app_config.toml"
 
 # Default themes
 default_light_theme = {
@@ -52,17 +53,22 @@ def determine_theme_status(theme):
     else:
         return "custom"
 
-# Create a default config file if it doesn't exist
-def create_default_config():
-    default_config = {
+# Create default config files if they don't exist
+def create_default_configs():
+    default_streamlit_config = {
         "theme": default_dark_theme["theme"],  # Default to dark theme
-        "extras": {
+    }
+    os.makedirs(os.path.dirname(STREAMLIT_CONFIG_PATH), exist_ok=True)
+    with open(STREAMLIT_CONFIG_PATH, "w") as f:
+        toml.dump(default_streamlit_config, f)
+
+    default_app_config = {
+        "streamlit-option-menu": {
             "orientation": "vertical"  # Default orientation
         }
     }
-    os.makedirs(os.path.dirname(CONFIG_PATH), exist_ok=True)
-    with open(CONFIG_PATH, "w") as f:
-        toml.dump(default_config, f)
+    with open(APP_CONFIG_PATH, "w") as f:
+        toml.dump(default_app_config, f)
 
 # Apply theme settings immediately
 def apply_theme_settings(theme):
@@ -81,12 +87,12 @@ def apply_theme_settings(theme):
     """
     st.markdown(font_css, unsafe_allow_html=True)
 
-# Load current config values from .streamlit/config.toml if it exists
+# Load current config values from configuration files if they exist
 def load_config():
-    if not os.path.exists(CONFIG_PATH):
-        create_default_config()
+    if not os.path.exists(STREAMLIT_CONFIG_PATH) or not os.path.exists(APP_CONFIG_PATH):
+        create_default_configs()
     
-    config = toml.load(CONFIG_PATH)
+    config = toml.load(STREAMLIT_CONFIG_PATH)
     theme = config.get("theme", {})
     base = theme.get("base", "light")
     defaults = default_dark_theme if base == "dark" else default_light_theme
@@ -94,7 +100,8 @@ def load_config():
         theme.setdefault(key, value)
     config["theme"] = theme
 
-    extras = config.get("extras", {})
+    app_config = toml.load(APP_CONFIG_PATH)
+    extras = app_config.get("streamlit-option-menu", {})
     orientation = extras.get("orientation", "vertical")
 
     st.session_state.theme = theme
@@ -109,24 +116,30 @@ def validate_session_state():
     
     load_config()
 
-# Save configuration to file and update session state
+# Save configuration to files and update session state
 def save_config(theme=None, orientation=None):
     st.session_state.theme = theme
     st.session_state.orientation = orientation
     st.session_state.theme_status = determine_theme_status(theme)
 
-    config = {
+    streamlit_config = {
         "theme": theme,
-        "extras": {
+    }
+
+    app_config = {
+        "streamlit-option-menu": {
             "orientation": orientation
         }
     }
 
-    with open(CONFIG_PATH, "w") as f:
-        toml.dump(config, f)
+    with open(STREAMLIT_CONFIG_PATH, "w") as f:
+        toml.dump(streamlit_config, f)
+
+    with open(APP_CONFIG_PATH, "w") as f:
+        toml.dump(app_config, f)
 
     apply_theme_settings(theme)  # Apply theme settings immediately
-    st.experimental_rerun()  # Re-run the app to apply the new config file
+    st.experimental_rerun()  # Re-run the app to apply the new config files
 
 @st.cache(allow_output_mutation=True)   
 def load_modules():
