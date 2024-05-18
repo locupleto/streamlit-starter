@@ -6,7 +6,7 @@
 #               BasePage and defines the content and properties for the theme 
 #               settings page. This page allows users to customize the 
 #               application theme, including primary color, background color, 
-#               secondary background color, text color, font, menu orientation, 
+#               secondary background color, text color, font, menu orientation 
 #               and display mode (wide or not).
 # Useful Links:
 #   https://icons.getbootstrap.com/
