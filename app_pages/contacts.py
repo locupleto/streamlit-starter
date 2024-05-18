@@ -1,16 +1,17 @@
 import streamlit as st
+from base_page import BasePage
 
-def show_page():
-    st.title("Contact Page")
-    st.write("This is the Contacts Page.")
+class ContactsPage(BasePage):
 
-# --- Mandatory functions for the menu to work properly ---
+    def show_page(self):
+        st.title("Contact Page")
+        st.write("This is the Contacts Page.")
 
-def label():
-    return "Contacts"
+    def label(self):
+        return "Contacts"
 
-def icon():
-    return "envelope"
+    def icon(self):
+        return "envelope"
 
-def order():
-    return 2
+    def order(self):
+        return 2

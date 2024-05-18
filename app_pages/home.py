@@ -1,16 +1,17 @@
 import streamlit as st
+from base_page import BasePage
 
-def show_page():
-    st.title("Home Page")
-    st.write("Welcome to the Home Page. This is the main dashboard of the application.")
+class HomePage(BasePage):
 
-# --- Mandatory functions for the menu to work properly ---
+    def show_page(self):
+        st.title("Home Page")
+        st.write("Welcome to the Home Page. This is the main dashboard of the application.")
 
-def label():
-    return "Home"
+    def label(self):
+        return "Home"
 
-def icon():
-    return "house"
+    def icon(self):
+        return "house"
 
-def order():
-    return 1
+    def order(self):
+        return 1

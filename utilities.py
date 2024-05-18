@@ -1,8 +1,10 @@
 import os
 import importlib
+from time import sleep
 import streamlit as st
 from streamlit_option_menu import option_menu
 import toml
+from base_page import BasePage
 
 # File path for the Streamlit configuration
 CONFIG_PATH = ".streamlit/config.toml"
@@ -125,7 +127,11 @@ def load_modules():
             module_name = filename[:-3]
             module_path = f"app_pages.{module_name}"
             module = importlib.import_module(module_path)
-            modules.append((module_name, module))
+            # Find the class that inherits from BasePage and create an instance
+            for name, obj in module.__dict__.items():
+                if isinstance(obj, type) and issubclass(obj, BasePage) and obj is not BasePage:
+                    modules.append((module_name, obj()))
+                    break
     return modules
 
 # Function to dynamically create menu options from loaded modules
