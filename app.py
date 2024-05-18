@@ -58,7 +58,7 @@ def event_handler():
     page_dict[selected_page].show_page()
 
     # Call the debug function to print session state variables
-    debug_session_state()
+    #debug_session_state()
 
 if __name__ == "__main__":
     event_handler()

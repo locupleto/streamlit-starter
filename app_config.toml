@@ -2,5 +2,5 @@
 example-key = "example-value"
 
 [streamlit-option-menu]
-orientation = "vertical"
+orientation = "horizontal"
 wide_mode = true
