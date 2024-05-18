@@ -44,7 +44,7 @@ class AppSettingsPage(BasePage):
         if st.button("Save Settings"):
             with open(APP_CONFIG_PATH, "w") as f:
                 toml.dump(app_config, f)
-            st.experimental_rerun()
+            st.rerun()
 
     def create_default_app_config(self):
         default_app_config = {

@@ -76,7 +76,7 @@ class ThemeSettingsPage(BasePage):
 
             st.session_state.wide_mode = display_mode
             save_config(theme, orientation, display_mode)
-            st.experimental_rerun()
+            st.rerun()
 
     def label(self):
         return "Theme Settings"

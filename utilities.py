@@ -146,9 +146,9 @@ def save_config(theme=None, orientation=None, wide_mode=False):
     with open(APP_CONFIG_PATH, "w") as f:
         toml.dump(app_config, f)
     sleep(0.5)
-    st.experimental_rerun()  # Re-run the app to apply the new config files
+    st.rerun()  # Re-run the app to apply the new config files
 
-@st.cache(allow_output_mutation=True)   
+@st.cache_data()   
 def load_modules():
     # Function to dynamically load modules from the app_pages directory
     pages_path = "./app_pages"
