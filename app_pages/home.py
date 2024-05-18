@@ -1,3 +1,17 @@
+# ============================================================================
+# -*- coding: utf-8 -*-
+#
+# Module: Home Page
+# Description: Implements the HomePage class that inherits from BasePage
+#              and defines the content and properties for the home page.
+#
+# Useful Links:
+#   https://icons.getbootstrap.com/
+#
+# History:
+# 2024-05-18    urot  Created
+# ============================================================================
+
 import streamlit as st
 from base_page import BasePage
 

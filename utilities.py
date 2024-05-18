@@ -1,3 +1,14 @@
+# ============================================================================
+# -*- coding: utf-8 -*-
+#
+# Module: Utilities
+# Description: Contains utility functions for loading modules dynamically,
+#              managing configurations, and applying theme settings.
+#
+# History:
+# 2024-05-18    urot  Created
+# ============================================================================
+
 import os
 import importlib
 from time import sleep

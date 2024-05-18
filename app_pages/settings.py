@@ -1,3 +1,21 @@
+# ============================================================================
+# -*- coding: utf-8 -*-
+#
+# Module: Settings Page
+# Description: Implements the SettingsPage class that inherits from BasePage
+#              and defines the content and properties for the settings page.
+#              This page allows users to customize the application theme,
+#              including primary color, background color, secondary background
+#              color, text color, and font. Users can also select the menu
+#              orientation (vertical or horizontal).
+#
+# Useful Links:
+#   https://icons.getbootstrap.com/
+#
+# History:
+# 2024-05-18    urot  Created
+# ============================================================================
+
 import streamlit as st
 from base_page import BasePage
 from utilities import save_config, default_light_theme, default_dark_theme

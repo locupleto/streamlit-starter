@@ -1,3 +1,36 @@
+# ============================================================================
+# -*- coding: utf-8 -*-
+#
+# Project:      Streamlit Application with Dynamic Page Loading
+# Description:  This Streamlit application dynamically loads and displays
+#               pages defined in the app_pages package. Each page must 
+#               implement the BasePage abstract base class.
+#
+# Usage:        Run with 'streamlit run app.py' from the terminal.
+#
+# Virtual Environment Setup:
+#   python3 -m venv venv
+#   source venv/bin/activate
+#   pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# Required Packages:
+#   altair==4.1.0
+#   streamlit
+#   watchdog
+#   streamlit-js-eval
+#   streamlit-option-menu
+#
+# VSCode Notes: Run with 'streamlit run app.py' from the terminal or press
+#               Cmd+Shift+D to bring up the debugging interface.
+#
+# Useful Links:
+#   https://icons.getbootstrap.com/
+#
+# History:
+# 2024-05-18    urot  Created
+# ============================================================================
+
 import streamlit as st
 from utilities import validate_session_state, dynamic_streamlit_menu
 

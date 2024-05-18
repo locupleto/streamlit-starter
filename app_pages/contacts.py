@@ -1,3 +1,17 @@
+# ============================================================================
+# -*- coding: utf-8 -*-
+#
+# Module: Contacts Page
+# Description: Implements the ContactsPage class that inherits from BasePage
+#              and defines the content and properties for the contacts page.
+#
+# Useful Links:
+#   https://icons.getbootstrap.com/
+#
+# History:
+# 2024-05-18    urot  Created
+# ============================================================================
+
 import streamlit as st
 from base_page import BasePage
 
