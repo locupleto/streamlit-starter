@@ -1,10 +1,7 @@
 [theme]
 base = "dark"
-primaryColor = "#f6a033"
+primaryColor = "#e2972a"
 backgroundColor = "#262730"
 secondaryBackgroundColor = "#1A1A1A"
 textColor = "#FFFFFF"
 font = "sans serif"
-
-[extras]
-orientation = "vertical"
