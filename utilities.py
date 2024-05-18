@@ -1,10 +1,12 @@
 # ============================================================================
 # -*- coding: utf-8 -*-
 #
-# Module: Utilities
-# Description: Contains utility functions for loading modules dynamically,
-#              managing configurations, and applying theme settings.
-#
+# Module:       Utilities
+# Description:  Contains utility functions for loading modules dynamically,
+#               managing configurations, and applying theme settings.
+#               Custom configuration settings are stored in a separate
+#               app_config.toml file to avoid conflicts with Streamlit's
+#               internal configuration handling.
 # History:
 # 2024-05-18    urot  Created
 # ============================================================================
@@ -63,8 +65,12 @@ def create_default_configs():
         toml.dump(default_streamlit_config, f)
 
     default_app_config = {
+        "example-section": {
+            "example-key": "example-value"
+        },
         "streamlit-option-menu": {
-            "orientation": "vertical"  # Default orientation
+            "orientation": "vertical",  # Default orientation
+            "wide_mode": False  # Default to not wide mode
         }
     }
     with open(APP_CONFIG_PATH, "w") as f:
@@ -103,11 +109,12 @@ def load_config():
     app_config = toml.load(APP_CONFIG_PATH)
     extras = app_config.get("streamlit-option-menu", {})
     orientation = extras.get("orientation", "vertical")
+    wide_mode = extras.get("wide_mode", False)
 
     st.session_state.theme = theme
     st.session_state.theme_status = determine_theme_status(theme)
     st.session_state.orientation = orientation
-    apply_theme_settings(theme)  # Apply theme settings immediately
+    st.session_state.wide_mode = wide_mode
 
 # Ensure necessary session state variables are initialized
 def validate_session_state():
@@ -117,19 +124,20 @@ def validate_session_state():
     load_config()
 
 # Save configuration to files and update session state
-def save_config(theme=None, orientation=None):
+def save_config(theme=None, orientation=None, wide_mode=False):
     st.session_state.theme = theme
     st.session_state.orientation = orientation
+    st.session_state.wide_mode = wide_mode
     st.session_state.theme_status = determine_theme_status(theme)
 
     streamlit_config = {
         "theme": theme,
     }
 
-    app_config = {
-        "streamlit-option-menu": {
-            "orientation": orientation
-        }
+    app_config = toml.load(APP_CONFIG_PATH)
+    app_config["streamlit-option-menu"] = {
+        "orientation": orientation,
+        "wide_mode": wide_mode
     }
 
     with open(STREAMLIT_CONFIG_PATH, "w") as f:
@@ -138,7 +146,6 @@ def save_config(theme=None, orientation=None):
     with open(APP_CONFIG_PATH, "w") as f:
         toml.dump(app_config, f)
 
-    apply_theme_settings(theme)  # Apply theme settings immediately
     st.experimental_rerun()  # Re-run the app to apply the new config files
 
 @st.cache(allow_output_mutation=True)   

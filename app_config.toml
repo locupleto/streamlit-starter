@@ -1,2 +1,6 @@
+[example-section]
+example-key = "example-value"
+
 [streamlit-option-menu]
 orientation = "vertical"
+wide_mode = true

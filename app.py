@@ -32,7 +32,13 @@
 # ============================================================================
 
 import streamlit as st
-from utilities import validate_session_state, dynamic_streamlit_menu
+from utilities import validate_session_state, dynamic_streamlit_menu, load_config
+
+# Load the configuration at the start
+load_config()
+
+# Set the page configuration
+st.set_page_config(layout="wide" if st.session_state.get("wide_mode", False) else "centered")
 
 # Debug function to print all session state variables
 def debug_session_state():
@@ -49,10 +55,10 @@ def event_handler():
         st.session_state.get("orientation", "vertical")
     )
 
-    # Call the debug function to print session state variables
-    #debug_session_state()
-
     page_dict[selected_page].show_page()
+
+    # Call the debug function to print session state variables
+    debug_session_state()
 
 if __name__ == "__main__":
     event_handler()
