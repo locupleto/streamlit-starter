@@ -148,7 +148,7 @@ def save_config(theme=None, orientation=None, wide_mode=False):
     sleep(0.5)
     st.rerun()  # Re-run the app to apply the new config files
 
-@st.cache_data()   
+@st.cache_resource 
 def load_modules():
     # Function to dynamically load modules from the app_pages directory
     pages_path = "./app_pages"

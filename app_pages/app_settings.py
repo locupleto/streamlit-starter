@@ -1,18 +1,3 @@
-# ============================================================================
-# -*- coding: utf-8 -*-
-#
-# Module:       Application Settings Page
-# Description:  Implements the AppSettingsPage class that inherits from 
-#               BasePage and defines the content and properties for the 
-#               application settings page. This page allows users to edit all 
-#               existing sections and settings in the app_config.toml file.
-# Useful Links:
-#   https://icons.getbootstrap.com/
-#
-# History:
-# 2024-05-18    urot  Created
-# ============================================================================
-
 import os
 import streamlit as st
 from base_page import BasePage
@@ -31,20 +16,25 @@ class AppSettingsPage(BasePage):
 
         app_config = toml.load(APP_CONFIG_PATH)
 
-        # Display and edit each section in the app configuration
-        for section, settings in app_config.items():
-            if section != "streamlit-option-menu":
-                st.subheader(section)
-                for key, value in settings.items():
-                    new_value = st.text_input(f"{section} - {key}", value)
-                    if new_value != value:
-                        app_config[section][key] = new_value
+        # Use st.form to group input elements
+        with st.form(key="settings_form"):
+            # Display and edit each section in the app configuration
+            for section, settings in app_config.items():
+                if section != "streamlit-option-menu":
+                    st.subheader(section)
+                    for key, value in settings.items():
+                        new_value = st.text_input(f"{section} - {key}", value)
+                        if new_value != value:
+                            app_config[section][key] = new_value
+            
+            # Submit button for the form
+            submit_button = st.form_submit_button(label="Save Settings")
 
-        # Save the updated configuration
-        if st.button("Save Settings"):
+        # Save the updated configuration when the form is submitted
+        if submit_button:
             with open(APP_CONFIG_PATH, "w") as f:
                 toml.dump(app_config, f)
-            st.rerun()
+            st.experimental_rerun()
 
     def create_default_app_config(self):
         default_app_config = {
