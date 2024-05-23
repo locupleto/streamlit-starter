@@ -8,7 +8,8 @@
 #               app_config.toml file to avoid conflicts with Streamlit's
 #               internal configuration handling.
 # History:
-# 2024-05-18    urot  Created
+# 2024-05-18    urot Created
+# 2024-05-23    urot Made the default page automatically the first page
 # ============================================================================
 
 import os
@@ -119,7 +120,8 @@ def load_config():
 # Ensure necessary session state variables are initialized
 def validate_session_state():
     if "previous_page" not in st.session_state:
-        st.session_state.previous_page = "Home"
+        modules = load_modules()  # Load modules and set default page
+        st.session_state.previous_page = st.session_state.default_page
     
     load_config()
 
@@ -146,7 +148,7 @@ def save_config(theme=None, orientation=None, wide_mode=False):
     with open(APP_CONFIG_PATH, "w") as f:
         toml.dump(app_config, f)
     sleep(0.5)
-    st.rerun()  # Re-run the app to apply the new config files
+    st.experimental_rerun()  # Re-run the app to apply the new config files
 
 @st.cache_resource 
 def load_modules():
@@ -163,6 +165,14 @@ def load_modules():
                 if isinstance(obj, type) and issubclass(obj, BasePage) and obj is not BasePage:
                     modules.append((module_name, obj()))
                     break
+
+    # Determine the page with the lowest order
+    modules.sort(key=lambda x: x[1].order())
+    if modules:
+        st.session_state.default_page = modules[0][1].label()
+    else:
+        st.session_state.default_page = "Error"  # If no modules exist, set a default error page
+
     return modules
 
 # Function to dynamically create menu options from loaded modules
